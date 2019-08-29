@@ -7,16 +7,7 @@
     <div class="container">
       <search-form v-bind:value="query" v-on:@submit="onSubmit" v-on:@reset="onReset"></search-form>
       <div v-if="submitted">
-        <div v-if="searchResult.length">
-          <ul>
-            <li v-for="item in searchResult">
-              <img v-bind:src="item.image">{{item.name}}
-            </li>
-          </ul>
-        </div>
-        <div v-else>
-          {{query}} 검색어로 찾을수 없습니다.
-        </div>
+        <search-result v-bind:data="searchResult" v-bind:query="query"></search-result>
       </div>
       <div v-else>
         <ul class="tabs">
@@ -66,6 +57,7 @@
   import HistoryModel from './models/HistoryModel.js'
 
   import FormComponent from './components/FormComponent.vue'
+  import ResultComponent from './components/ResultComponent.vue'
 
   export default {
     name: 'app',
@@ -81,7 +73,8 @@
       }
     },
     components: {
-      'search-form': FormComponent
+      'search-form': FormComponent,
+      'search-result': ResultComponent
     },
     created(){
       this.selectedTab = this.tabs[0];
