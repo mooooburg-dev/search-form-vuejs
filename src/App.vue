@@ -5,11 +5,7 @@
     </header>
 
     <div class="container">
-      <form v-on:submit.prevent="onSubmit">
-        <input type="text" v-model="query" v-on:keyup="onKeyup" placeholder="검색어를 입력하세요" autofocus />
-        <button v-show="query.length" v-on:click="onReset" type="reset" class="btn-reset"></button>
-      </form>
-
+      <search-form v-bind:value="query" v-on:@submit="onSubmit" v-on:@reset="onReset"></search-form>
       <div v-if="submitted">
         <div v-if="searchResult.length">
           <ul>
@@ -69,6 +65,8 @@
   import KeywordModel from './models/KeywordModel.js'
   import HistoryModel from './models/HistoryModel.js'
 
+  import FormComponent from './components/FormComponent.vue'
+
   export default {
     name: 'app',
     data() {
@@ -82,17 +80,18 @@
         searchResult: []
       }
     },
+    components: {
+      'search-form': FormComponent
+    },
     created(){
       this.selectedTab = this.tabs[0];
       this.fetchKeyword();
       this.fetchHistory();
     },
     methods: {
-      onSubmit() {
+      onSubmit(query) {
+        this.query = query;
         this.search()
-      },
-      onKeyup() {
-        if (!this.query.length) this.onReset()
       },
       onClickTab(tab) {
         this.selectedTab = tab
