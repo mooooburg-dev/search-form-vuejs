@@ -29,6 +29,9 @@ new Vue({
     onKeyup(){
       if(!this.query.length) this.onReset();
     },
+    onClickTab(tab){
+      this.selectedTab = tab;
+    },
     search(){
       SearchModel.list().then(data =>{
         this.submitted = true;
