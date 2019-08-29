@@ -5,13 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="./style.css" />
     <title>search-form-vuejs</title>
   </head>
   <body>
-    <noscript>
+    <div id="app">
+      <header>
+        <h2 class="container">검색</h2>
+      </header>
+
+      <div class="container">
+        <form v-on:submit.prevent="onSubmit">
+          <input type="text" v-model="query" placeholder="검색어를 입력하세요" autofocus />
+          <button v-show="query.length" v-on:click="onReset" type="reset" class="btn-reset"></button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- <noscript>
       <strong>We're sorry but search-form-vuejs doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app"></div> -->
     <!-- built files will be auto injected -->
   </body>
 </html>
