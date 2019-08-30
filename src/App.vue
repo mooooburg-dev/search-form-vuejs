@@ -5,56 +5,19 @@
     </header>
 
     <div class="container">
-      <form v-on:submit.prevent="onSubmit">
-        <input type="text" v-model="query" v-on:keyup="onKeyup" placeholder="검색어를 입력하세요" autofocus />
-        <button v-show="query.length" v-on:click="onReset" type="reset" class="btn-reset"></button>
-      </form>
-
+      <search-form v-bind:value="query" v-on:@submit="onSubmit" v-on:@reset="onReset"></search-form>
       <div v-if="submitted">
-        <div v-if="searchResult.length">
-          <ul>
-            <li v-for="item in searchResult">
-              <img v-bind:src="item.image">{{item.name}}
-            </li>
-          </ul>
-        </div>
-        <div v-else>
-          {{query}} 검색어로 찾을수 없습니다.
-        </div>
+        <search-result v-bind:data="searchResult" v-bind:query="query"></search-result>
       </div>
       <div v-else>
-        <ul class="tabs">
-          <li v-for="tab in tabs" v-bind:class="{active: tab === selectedTab}" v-on:click="onClickTab(tab)">
-            {{tab}}
-          </li>
-        </ul>
+        <tabs v-bind:tabs="tabs" v-bind:selected-tab="selectedTab" v-on:@change="onClickTab"></tabs>
 
         <div v-if="selectedTab === tabs[0]">
-          <div v-if="keywords.length">
-            <ul class="list">
-              <li v-for="(item, index) in keywords" v-on:click="onClickKeyword(item.keyword)">
-                <span class="number">{{index + 1}}</span>
-                {{item.keyword}}
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            추천 검색어가 없습니다.
-          </div>
+          <list v-bind:data="keywords" type="keyword" v-on:@click="onClickKeyword"></list>
         </div>
+
         <div v-else>
-          <div v-if="history.length">
-            <ul class="list">
-              <li v-for="item in history" v-on:click="onClickKeyword(item.keyword)">
-                {{item.keyword}}
-                <span class="date">{{item.date}}</span>
-                <button class="btn-remove" v-on:click.stop="onClickRemoveHistory(item.keyword)"></button>
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            최근 검색어가 없습니다.
-          </div>
+          <list v-bind:data="history" type="history" v-on:@click="onClickKeyword" v-on:@remove="onClickRemoveHistory"></list>
         </div>
 
       </div>
@@ -69,6 +32,11 @@
   import KeywordModel from './models/KeywordModel.js'
   import HistoryModel from './models/HistoryModel.js'
 
+  import FormComponent from './components/FormComponent.vue'
+  import ResultComponent from './components/ResultComponent.vue'
+  import ListComponent from './components/ListComponent.vue'
+  import TabComponent from './components/TabComponent.vue'
+
   export default {
     name: 'app',
     data() {
@@ -82,17 +50,21 @@
         searchResult: []
       }
     },
+    components: {
+      'search-form': FormComponent,
+      'search-result': ResultComponent,
+      'list': ListComponent,
+      'tabs': TabComponent
+    },
     created(){
       this.selectedTab = this.tabs[0];
       this.fetchKeyword();
       this.fetchHistory();
     },
     methods: {
-      onSubmit() {
+      onSubmit(query) {
+        this.query = query;
         this.search()
-      },
-      onKeyup() {
-        if (!this.query.length) this.onReset()
       },
       onClickTab(tab) {
         this.selectedTab = tab
