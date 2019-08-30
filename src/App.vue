@@ -17,31 +17,11 @@
         </ul>
 
         <div v-if="selectedTab === tabs[0]">
-          <div v-if="keywords.length">
-            <ul class="list">
-              <li v-for="(item, index) in keywords" v-on:click="onClickKeyword(item.keyword)">
-                <span class="number">{{index + 1}}</span>
-                {{item.keyword}}
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            추천 검색어가 없습니다.
-          </div>
+          <list v-bind:data="keywords" type="keyword" v-on:@click="onClickKeyword"></list>
         </div>
+
         <div v-else>
-          <div v-if="history.length">
-            <ul class="list">
-              <li v-for="item in history" v-on:click="onClickKeyword(item.keyword)">
-                {{item.keyword}}
-                <span class="date">{{item.date}}</span>
-                <button class="btn-remove" v-on:click.stop="onClickRemoveHistory(item.keyword)"></button>
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            최근 검색어가 없습니다.
-          </div>
+          <list v-bind:data="history" type="history" v-on:@click="onClickKeyword" v-on:@remove="onClickRemoveHistory"></list>
         </div>
 
       </div>
@@ -58,6 +38,7 @@
 
   import FormComponent from './components/FormComponent.vue'
   import ResultComponent from './components/ResultComponent.vue'
+  import ListComponent from './components/ListComponent.vue'
 
   export default {
     name: 'app',
@@ -74,7 +55,8 @@
     },
     components: {
       'search-form': FormComponent,
-      'search-result': ResultComponent
+      'search-result': ResultComponent,
+      'list': ListComponent
     },
     created(){
       this.selectedTab = this.tabs[0];
