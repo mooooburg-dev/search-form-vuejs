@@ -15,7 +15,6 @@
       <div v-if="selectedTab === tabs[0]">
         <list v-bind:data="keywords" type="keyword" v-on:@click="onClickKeyword"></list>
       </div>
-
       <div v-else>
         <list v-bind:data="history" type="history" v-on:@click="onClickKeyword" v-on:@remove="onClickRemoveHistory"></list>
       </div>

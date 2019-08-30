@@ -14,7 +14,7 @@
       }
     },
     watch: {
-      value(newVal, oldVal){
+      value(newVal){
         this.inputValue = newVal;
       }
     },
