@@ -1,4 +1,4 @@
-<template id="search-result">
+<template>
   <div v-if="data.length">
     <ul>
       <li v-for="item in data">
@@ -13,7 +13,6 @@
 
 <script>
   export default{
-    template: '#search-result',
     props: ['data', 'query']
   }
 </script>

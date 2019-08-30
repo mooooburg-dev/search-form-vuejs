@@ -1,4 +1,4 @@
-<template id="List">
+<template>
   <div v-if="data.length">
     <ul class="list">
       <li v-for="(item, index) in data" v-on:click="onClickList(item.keyword)">
@@ -17,7 +17,6 @@
 
 <script>
   export default{
-    template: '#list',
     props: ['data', 'type'],
     computed: {
       keywordType(){

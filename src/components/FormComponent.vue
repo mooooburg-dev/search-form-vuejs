@@ -1,4 +1,4 @@
-<template id="search-form">
+<template>
   <form v-on:submit.prevent="onSubmit">
     <input type="text" v-model="inputValue" v-on:keyup="onKeyup" placeholder="검색어를 입력하세요" autofocus />
     <button v-show="inputValue.length" v-on:click="onReset" type="reset" class="btn-reset"></button>
@@ -7,7 +7,6 @@
 
 <script>
   export default{
-    template: '#search-form',
     props: ['value'],
     data(){
       return {
