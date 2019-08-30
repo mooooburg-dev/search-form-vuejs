@@ -10,11 +10,7 @@
         <search-result v-bind:data="searchResult" v-bind:query="query"></search-result>
       </div>
       <div v-else>
-        <ul class="tabs">
-          <li v-for="tab in tabs" v-bind:class="{active: tab === selectedTab}" v-on:click="onClickTab(tab)">
-            {{tab}}
-          </li>
-        </ul>
+        <tabs v-bind:tabs="tabs" v-bind:selected-tab="selectedTab" v-on:@change="onClickTab"></tabs>
 
         <div v-if="selectedTab === tabs[0]">
           <list v-bind:data="keywords" type="keyword" v-on:@click="onClickKeyword"></list>
@@ -39,6 +35,7 @@
   import FormComponent from './components/FormComponent.vue'
   import ResultComponent from './components/ResultComponent.vue'
   import ListComponent from './components/ListComponent.vue'
+  import TabComponent from './components/TabComponent.vue'
 
   export default {
     name: 'app',
@@ -56,7 +53,8 @@
     components: {
       'search-form': FormComponent,
       'search-result': ResultComponent,
-      'list': ListComponent
+      'list': ListComponent,
+      'tabs': TabComponent
     },
     created(){
       this.selectedTab = this.tabs[0];
